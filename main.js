@@ -1,6 +1,4 @@
-﻿for(var i=0;i<5000;i++){
-    console.log(i)
-}
+﻿
 var Gpio = require("onoff").Gpio;
 var LCD = require("lcd");
 var button = new Gpio(14, 'in', 'both');
@@ -16,6 +14,8 @@ var led8 = new Gpio(9, 'out');
 var led9 = new Gpio(10,  'out');
 
 var lcd = new LCD({rs: 26, e: 2, data: [21, 20, 16, 12], cols: 16, rows: 2})
+
+funkcja_bcd()
 
 var ledsy = [ [ led, led3, led2 ],
               [ led4, led6, led5 ],
@@ -509,4 +509,78 @@ function findBestMove(board)
                    "is : ", bestVal + "<br><br>");
   
     return bestMoverow+''+bestMovecol;
+}
+
+
+function funkcja_bcd(){
+lcd.clear()
+lcd.setCursor(0, 0);
+var n = Math.floor(Math.random() * 100)
+    lcd.print('wylosowalem: '+n)
+console.log(n);
+
+
+function dec2bin(dec) {
+  return (dec >>> 0).toString(2);
+}
+var wynik_bcd ='';
+var text1 = n.toString();
+
+if(text1.length==2){
+    var num1=text1.charAt(0)
+    var num2=text1.charAt(1)
+    var wynik1=dec2bin(num1)
+    var wynik2=dec2bin(num2)
+    if(wynik1.length<4){
+
+        var ile = wynik1.length;
+        var temp = wynik1;
+        wynik1=''
+        for(var i=0;i<4-ile;i++){
+            wynik1+='0'
+        }
+        wynik1+=temp;
+        num1=wynik1;
+    }
+    else{
+        num1=wynik1;
+    }
+        if(wynik2.length<4){
+        var ile = wynik2.length;
+        var temp = wynik2;
+        wynik2=''
+        for(var i=0;i<4-ile;i++){
+            wynik2+='0'
+        }
+        wynik2+=temp;
+        num2=wynik2;
+    }
+        else{
+        num2=wynik2;
+    }
+    wynik_bcd+=(num1+' ')
+    wynik_bcd+=(num2)
+}
+else{
+    var num1=text1.charAt(0)
+    var wynik1=dec2bin(num1)
+       if(wynik1.length<4){
+        var ile = wynik1.length;
+        var temp = wynik1;
+        wynik1=''
+        for(var i=0;i<4-ile;i++){
+            wynik1+='0'
+        }
+        wynik1+=temp;
+        num1=wynik1;
+}
+    else{
+        num1=wynik1;
+    }
+        wynik_bcd+=num1
+}
+console.log('wynik BCD to: '+wynik_bcd)
+lcd.setCursor(1, 0);
+lcd.print('BCD: '+wynik_bcd)
+sleep(33000)
 }
