@@ -514,23 +514,34 @@ function findBestMove(board)
 
 function funkcja_bcd(){
 lcd.clear()
-lcd.setCursor(0, 0);
-var n = Math.floor(Math.random() * 100)
-    lcd.print('wylosowalem: '+n)
+var n = Math.floor(Math.random() * 100)         //losuje dziesietna
 console.log(n);
 
 
-function dec2bin(dec) {
+function dec2bin(dec) {                 //dziesietna liczba do binarnej
   return (dec >>> 0).toString(2);
 }
 var wynik_bcd ='';
 var text1 = n.toString();
-
-if(text1.length==2){
+    var pelny_numer=dec2bin(n);
+if(text1.length==2){                //jesli liczba dwucyfrowa 
     var num1=text1.charAt(0)
     var num2=text1.charAt(1)
     var wynik1=dec2bin(num1)
     var wynik2=dec2bin(num2)
+        if(pelny_numer.length<8){
+
+        var ile = pelny_numer.length;
+        var temp = pelny_numer;
+        pelny_numer=''
+        for(var i=0;i<8-ile;i++){
+            pelny_numer+='0'
+        }
+        pelny_numer+=temp;
+    }
+    var txt2 = pelny_numer.slice(0, 4) + " " + pelny_numer.slice(4);
+    console.log("liczba binarna to: "+txt2)
+    lcd.print("los: "+txt2)
     if(wynik1.length<4){
 
         var ile = wynik1.length;
@@ -558,12 +569,25 @@ if(text1.length==2){
         else{
         num2=wynik2;
     }
+    
     wynik_bcd+=(num1+' ')
     wynik_bcd+=(num2)
 }
-else{
+else{           //liczba jednocyfrowa
     var num1=text1.charAt(0)
     var wynik1=dec2bin(num1)
+    if(pelny_numer.length<4){
+
+        var ile = pelny_numer.length;
+        var temp = pelny_numer;
+        pelny_numer=''
+        for(var i=0;i<4-ile;i++){
+            pelny_numer+='0'
+        }
+        pelny_numer+=temp;
+    }
+    console.log("liczba binarna to: "+pelny_numer)
+    lcd.print("los: "+pelny_numer)
        if(wynik1.length<4){
         var ile = wynik1.length;
         var temp = wynik1;
